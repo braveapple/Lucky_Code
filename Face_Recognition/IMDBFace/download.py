@@ -78,13 +78,13 @@ class Downloader(object):
     self.workers.append(logger_func)
 
     try:
-      while self.all_alive():
+      while self.any_alive():
         time.sleep(100)
         pass
     except KeyboardInterrupt:
       print('Stopped by keyboard') 
 
-  def all_alive(self):
+  def any_alive(self):
     alive = False
     for worker in self.workers:
       if worker.isAlive():
