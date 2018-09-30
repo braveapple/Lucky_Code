@@ -57,7 +57,7 @@ class Downloader(object):
         f_image.write(response.content)
       self.output_queue.put('{},{},{}\n'.format(os.path.relpath(image_file, self.output_dir), bbox, height_width))
 
-  def loger(self):
+  def logger(self):
     bbox_file = os.path.join(self.output_dir, 'bbox.txt')
     with open(bbox_file, 'w') as f:
       for line_idx in tqdm(range(self.input_queue.qsize())):
@@ -72,10 +72,10 @@ class Downloader(object):
       worker_func.start()
       self.workers.append(worker_func)
     
-    loger_func = threading.Thread(target=self.loger, args=())
-    loger_func.setDaemon(True)
-    loger_func.start()
-    self.workers.append(loger_func)
+    logger_func = threading.Thread(target=self.logger, args=())
+    logger_func.setDaemon(True)
+    logger_func.start()
+    self.workers.append(logger_func)
 
     try:
       while self.all_alive():
