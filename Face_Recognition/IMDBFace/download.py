@@ -20,6 +20,7 @@ class Downloader(object):
     self.input_queue = Queue.Queue()
     self.output_queue = Queue.Queue()
     input_array = np.loadtxt(args.input_file, dtype='|S200', delimiter=',', skiprows=1)
+    self.image_num = input_array.shape[0]
     for line in input_array:
       self.input_queue.put(line)
     self.headers =  {
@@ -60,7 +61,7 @@ class Downloader(object):
   def logger(self):
     bbox_file = os.path.join(self.output_dir, 'bbox.txt')
     with open(bbox_file, 'w') as f:
-      for line_idx in tqdm(range(self.input_queue.qsize())):
+      for line_idx in tqdm(range(self.image_num)):
         line = self.output_queue.get()
         f.write(line)
 
